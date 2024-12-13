@@ -1,19 +1,20 @@
-package example;
+package driver;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionEx {
+public class MyDriverTest {
+
 	public static void main(String[] args) {
 		Connection conn = null;
 
 		try {
 			// 1. JDBC Driver 로딩
-			Class.forName("org.mariadb.jdbc.Driver");
+			Class.forName("driver.MyDriver");
 
 			// 2. 연결하기
-			String url = "jdbc:mariadb://192.168.0.10:3306/webdb";
+			String url = "jdbc:mydb://192.168.0.10:1234/webdb";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
 			System.out.println("연결성공!!!");
@@ -31,6 +32,6 @@ public class ConnectionEx {
 				e.printStackTrace();
 			}
 		}
-
 	}
+
 }
