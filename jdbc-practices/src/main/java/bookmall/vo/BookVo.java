@@ -3,12 +3,20 @@ package bookmall.vo;
 public class BookVo {
 	
 	private Long no;
-	private String bookTitle;
+	private String title;
 	private int price;
 	private Long categoryNo;
 	
+	public BookVo(Long no, String title, int price, Long categoryNo) {
+		super();
+		this.no = no;
+		this.title = title;
+		this.price = price;
+		this.categoryNo = categoryNo;
+	}
+
 	public BookVo(String bookTitle, int price) {
-		this.bookTitle = bookTitle;
+		this.title = bookTitle;
 		this.price = price;
 	}
 
@@ -20,12 +28,12 @@ public class BookVo {
 		this.no = no;
 	}
 	
-	public String getBookTitle() {
-		return bookTitle;
+	public String getTitle() {
+		return title;
 	}
 	
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	public int getPrice() {

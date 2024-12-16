@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bookmall.db.dbConn;
+import bookmall.db.DBConnection;
 import bookmall.vo.CategoryVo;
 
 public class CategoryDao {
@@ -22,7 +22,7 @@ public class CategoryDao {
 		ResultSet rs = null;
 
 		try {
-			conn = dbConn.getConnection();
+			conn = DBConnection.getConnection();
 
 			String sql = "insert into category (category_type) values(?)";
 			pstmt = conn.prepareStatement(sql);
@@ -66,7 +66,7 @@ public class CategoryDao {
 		ResultSet rs = null;
 
 		try {
-			conn = dbConn.getConnection();
+			conn = DBConnection.getConnection();
 
 			String sql = "select category_type from category";
 			pstmt = conn.prepareStatement(sql);
@@ -95,6 +95,20 @@ public class CategoryDao {
 		}
 		
 		return result;
+	}
+
+	public void deleteByNo(Long no) {
+		try (
+				Connection conn = DBConnection.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("delete "
+						+ "from category where no = ?");
+		) {
+			pstmt.setLong(1, no);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
 	}
 
 }

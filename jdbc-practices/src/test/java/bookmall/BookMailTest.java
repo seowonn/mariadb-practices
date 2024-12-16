@@ -78,27 +78,27 @@ public class BookMailTest {
 		mockCartVo02.setBookNo(mockBookVo02.getNo());
 		mockCartVo02.setQuantity(2);
 		cartDao.insert(mockCartVo02);
-//
-//		// 주문하기(1개)
-//		mockOrderVo.setUserNo(mockUserVo01.getNo());
-//		mockOrderVo.setNumber("20240520-000012");
-//		mockOrderVo.setPayment(82400);
-//		mockOrderVo.setShipping("서울시 은평구 진관3로 77 구파발 래미안 926-801");
-//		mockOrderVo.setStatus("배송준비");
-//		orderDao.insert(mockOrderVo);
-//
-//		// 주문책(2개)
-//		mockOrderBookVo01.setOrderNo(mockOrderVo.getNo());
-//		mockOrderBookVo01.setBookNo(mockBookVo01.getNo());
-//		mockOrderBookVo01.setQuantity(1);
-//		mockOrderBookVo01.setPrice(20000);
-//		orderDao.insertBook(mockOrderBookVo01);
-//
-//		mockOrderBookVo02.setOrderNo(mockOrderVo.getNo());
-//		mockOrderBookVo02.setBookNo(mockBookVo02.getNo());
-//		mockOrderBookVo02.setQuantity(2);
-//		mockOrderBookVo02.setPrice(64000);
-//		orderDao.insertBook(mockOrderBookVo02);
+
+		// 주문하기(1개)
+		mockOrderVo.setUserNo(mockUserVo01.getNo());
+		mockOrderVo.setNumber("20240520-000012");
+		mockOrderVo.setPayment(82400);
+		mockOrderVo.setShipping("서울시 은평구 진관3로 77 구파발 래미안 926-801");
+		mockOrderVo.setStatus("배송준비");
+		orderDao.insert(mockOrderVo);
+
+		// 주문책(2개)
+		mockOrderBookVo01.setOrderNo(mockOrderVo.getNo());
+		mockOrderBookVo01.setBookNo(mockBookVo01.getNo());
+		mockOrderBookVo01.setQuantity(1);
+		mockOrderBookVo01.setPrice(20000);
+		orderDao.insertBook(mockOrderBookVo01);
+
+		mockOrderBookVo02.setOrderNo(mockOrderVo.getNo());
+		mockOrderBookVo02.setBookNo(mockBookVo02.getNo());
+		mockOrderBookVo02.setQuantity(2);
+		mockOrderBookVo02.setPrice(64000);
+		orderDao.insertBook(mockOrderBookVo02);
 	}
 
 	@Test
@@ -111,77 +111,74 @@ public class BookMailTest {
 		assertEquals(3, categoryDao.findAll().size());
 	}
 
-//	@Test
-//	public void testCart() {
-//	    Vo랑 엔티티랑 다른거! Dto랑 같은거 ~~~~~	
-//      findByUserNo에서 JOIN을 한다. 
-//		List<CartVo> list = cartDao.findByUserNo(mockUserVo01.getNo());
-//
-//		assertEquals(2, list.size());
-//		assertEquals(mockBookVo01.getNo(), list.get(0).getBookNo());
-//		assertEquals(mockBookVo01.getTitle(), list.get(0).getBookTitle());
-//		assertEquals(mockCartVo01.getQuantity(), list.get(0).getQuantity());
-//		assertEquals(mockBookVo02.getNo(), list.get(1).getBookNo());
-//		assertEquals(mockBookVo02.getTitle(), list.get(1).getBookTitle());
-//		assertEquals(mockCartVo02.getQuantity(), list.get(1).getQuantity());
-//	}
-//
-//	@Test
-//	public void testOr() {
-//		OrderVo vo = null;
-//
-//		vo = orderDao.findByNoAndUserNo(1234567L, mockUserVo01.getNo());
-//		assertNull(vo);
-//		vo = orderDao.findByNoAndUserNo(mockOrderVo.getNo(), mockUserVo01.getNo());
-//		assertNotNull(vo);
-//		assertEquals(mockOrderVo.getNumber(), vo.getNumber());
-//		assertEquals(mockOrderVo.getPayment(), vo.getPayment());
-//		assertEquals(mockOrderVo.getStatus(), vo.getStatus());
-//		assertEquals(mockOrderVo.getShipping(), vo.getShipping());
-//	}
-//
-//	@Test
-//	public void testOrderBooks() {
-//		List<OrderBookVo> list = orderDao.findBooksByNoAndUserNo(mockOrderVo.getNo(), mockUserVo01.getNo());
-//
-//		assertEquals(2, list.size());
-//
-//		assertEquals(mockOrderBookVo01.getOrderNo(), list.get(0).getOrderNo());
-//		assertEquals(mockOrderBookVo01.getQuantity(), list.get(0).getQuantity());
-//		assertEquals(mockOrderBookVo01.getPrice(), list.get(0).getPrice());
-//		assertEquals(mockOrderBookVo01.getBookNo(), list.get(0).getBookNo());
-//		assertEquals(mockBookVo01.getTitle(), list.get(0).getBookTitle());
-//		assertEquals(mockOrderBookVo02.getOrderNo(), list.get(1).getOrderNo());
-//		assertEquals(mockOrderBookVo02.getQuantity(), list.get(1).getQuantity());
-//		assertEquals(mockOrderBookVo02.getPrice(), list.get(1).getPrice());
-//		assertEquals(mockOrderBookVo02.getBookNo(), list.get(1).getBookNo());
-//		assertEquals(mockBookVo02.getTitle(), list.get(1).getBookTitle());
-//	}
-//
-//	@AfterAll
-//	public static void cleanUp() {
-//		// 주문책
-//		orderDao.deleteBooksByNo(mockOrderVo.getNo());
-//
-//		// 주문
-//		orderDao.deleteByNo(mockOrderVo.getNo());
-//
-//		// 카트
-//		cartDao.deleteByUserNoAndBookNo(mockCartVo01.getUserNo(), mockBookVo01.getNo());
-//		cartDao.deleteByUserNoAndBookNo(mockCartVo02.getUserNo(), mockBookVo02.getNo());
-//
-//		// 서적
-//		bookDao.deleteByNo(mockBookVo01.getNo());
-//		bookDao.deleteByNo(mockBookVo02.getNo());
-//		bookDao.deleteByNo(mockBookVo03.getNo());
-//
-//		// 카테고리
-//		categoryDao.deleteByNo(mockCategoryVo01.getNo());
-//		categoryDao.deleteByNo(mockCategoryVo02.getNo());
-//		categoryDao.deleteByNo(mockCategoryVo03.getNo());
-//
-//		// 사용자
-//		userDao.deleteByNo(mockUserVo01.getNo());
-//		userDao.deleteByNo(mockUserVo02.getNo());
-//	}
+	@Test
+	public void testCart() {
+		List<CartVo> list = cartDao.findByUserNo(mockUserVo01.getNo());
+
+		assertEquals(2, list.size());
+		assertEquals(mockBookVo01.getNo(), list.get(0).getBookNo());
+		assertEquals(mockBookVo01.getTitle(), list.get(0).getBookTitle());
+		assertEquals(mockCartVo01.getQuantity(), list.get(0).getQuantity());
+		assertEquals(mockBookVo02.getNo(), list.get(1).getBookNo());
+		assertEquals(mockBookVo02.getTitle(), list.get(1).getBookTitle());
+		assertEquals(mockCartVo02.getQuantity(), list.get(1).getQuantity());
+	}
+
+	@Test
+	public void testOr() {
+		OrderVo vo = null;
+		vo = orderDao.findByNoAndUserNo(1234567L, mockUserVo01.getNo());
+		assertNull(vo);
+		vo = orderDao.findByNoAndUserNo(mockOrderVo.getNo(), mockUserVo01.getNo());
+		assertNotNull(vo);
+		assertEquals(mockOrderVo.getNumber(), vo.getNumber());
+		assertEquals(mockOrderVo.getPayment(), vo.getPayment());
+		assertEquals(mockOrderVo.getStatus(), vo.getStatus());
+		assertEquals(mockOrderVo.getShipping(), vo.getShipping());
+	}
+
+	@Test
+	public void testOrderBooks() {
+		List<OrderBookVo> list = orderDao.findBooksByNoAndUserNo(mockOrderVo.getNo(), mockUserVo01.getNo());
+
+		assertEquals(2, list.size());
+
+		assertEquals(mockOrderBookVo01.getOrderNo(), list.get(0).getOrderNo());
+		assertEquals(mockOrderBookVo01.getQuantity(), list.get(0).getQuantity());
+		assertEquals(mockOrderBookVo01.getPrice(), list.get(0).getPrice());
+		assertEquals(mockOrderBookVo01.getBookNo(), list.get(0).getBookNo());
+		assertEquals(mockBookVo01.getTitle(), list.get(0).getBookTitle());
+		assertEquals(mockOrderBookVo02.getOrderNo(), list.get(1).getOrderNo());
+		assertEquals(mockOrderBookVo02.getQuantity(), list.get(1).getQuantity());
+		assertEquals(mockOrderBookVo02.getPrice(), list.get(1).getPrice());
+		assertEquals(mockOrderBookVo02.getBookNo(), list.get(1).getBookNo());
+		assertEquals(mockBookVo02.getTitle(), list.get(1).getBookTitle());
+	}
+
+	@AfterAll
+	public static void cleanUp() {
+		// 주문책
+		orderDao.deleteBooksByNo(mockOrderVo.getNo());
+
+		// 주문
+		orderDao.deleteByNo(mockOrderVo.getNo());
+
+		// 카트
+		cartDao.deleteByUserNoAndBookNo(mockCartVo01.getUserNo(), mockBookVo01.getNo());
+		cartDao.deleteByUserNoAndBookNo(mockCartVo02.getUserNo(), mockBookVo02.getNo());
+
+		// 서적
+		bookDao.deleteByNo(mockBookVo01.getNo());
+		bookDao.deleteByNo(mockBookVo02.getNo());
+		bookDao.deleteByNo(mockBookVo03.getNo());
+
+		// 카테고리
+		categoryDao.deleteByNo(mockCategoryVo01.getNo());
+		categoryDao.deleteByNo(mockCategoryVo02.getNo());
+		categoryDao.deleteByNo(mockCategoryVo03.getNo());
+
+		// 사용자
+		userDao.deleteByNo(mockUserVo01.getNo());
+		userDao.deleteByNo(mockUserVo02.getNo());
+	}
 }

@@ -20,6 +20,10 @@ public class UserVo {
 		return no;
 	}
 	
+	public void setNo(Long no) {
+		this.no = no;
+	}
+	
 	public String getName() {
 		return name;
 	}
