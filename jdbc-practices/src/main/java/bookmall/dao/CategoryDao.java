@@ -12,48 +12,22 @@ import bookmall.vo.CategoryVo;
 
 public class CategoryDao {
 
-	private static Connection conn = null;
-
 	public void insert(CategoryVo categoryVo) {
 		
-		Long lastId = 0L;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		try (Connection conn = DBConnection.getConnection();
+				PreparedStatement pstmt1 = conn.prepareStatement(
+						"insert into category (category_type) values(?)");
+				PreparedStatement pstmt2 = conn.prepareStatement(
+						"select last_insert_id() from dual");
+		){
+			pstmt1.setString(1, categoryVo.getCategoryType());
+			pstmt1.executeUpdate();
 
-		try {
-			conn = DBConnection.getConnection();
-
-			String sql = "insert into category (category_type) values(?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, categoryVo.getCategoryType());
-
-			pstmt.executeUpdate();
-
-	        sql = "SELECT last_insert_id() FROM dual";
-	        pstmt = conn.prepareStatement(sql);
-	        rs = pstmt.executeQuery();
-	        if (rs.next()) {
-	            lastId = rs.getLong(1);
-	            categoryVo.setNo(lastId);
-	        }
-	        
+			ResultSet rs = pstmt2.executeQuery();
+			categoryVo.setNo(rs.next() ? rs.getLong(1) : null);
+			rs.close();
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				System.out.println("error: " + e);
-			}
 		}
 
 	}
@@ -61,51 +35,30 @@ public class CategoryDao {
 	public List<CategoryVo> findAll() {
 		
 		List<CategoryVo> result = new ArrayList<>();
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = DBConnection.getConnection();
-
-			String sql = "select category_type from category";
-			pstmt = conn.prepareStatement(sql);
-
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
+		try (Connection conn = DBConnection.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(
+						"select category_type from category");
+		) {
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
 				String categoryType = rs.getString(1);
 				result.add(new CategoryVo(categoryType));
 			}
-
+			rs.close();
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				System.out.println("error: " + e);
-			}
 		}
-		
 		return result;
 	}
 
 	public void deleteByNo(Long no) {
 		try (
 				Connection conn = DBConnection.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("delete "
-						+ "from category where no = ?");
+				PreparedStatement pstmt = conn.prepareStatement(
+						"delete from category where no = ?");
 		) {
 			pstmt.setLong(1, no);
 			pstmt.executeUpdate();
-
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
 		}

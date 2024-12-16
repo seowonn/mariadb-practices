@@ -8,7 +8,8 @@ public class UserVo {
 	private String password;
 	private String phoneNumber;
 	
-	
+	public UserVo() {}
+
 	public UserVo(String name, String email, String password, String phoneNumber) {
 		this.name = name;
 		this.email = email;

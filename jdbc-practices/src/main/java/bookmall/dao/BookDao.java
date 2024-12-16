@@ -13,9 +13,11 @@ public class BookDao {
 	public void insert(BookVo bookVo) {
 
 		try (Connection conn = DBConnection.getConnection();
-				PreparedStatement pstmt1 = conn
-						.prepareStatement("insert into book (title, price, category_no) values(?, ?, ?)");
-				PreparedStatement pstmt2 = conn.prepareStatement("select last_insert_id() from dual");) {
+				PreparedStatement pstmt1 = conn.prepareStatement(
+						"insert into book (title, price, category_no) values(?, ?, ?)");
+				PreparedStatement pstmt2 = conn.prepareStatement(
+						"select last_insert_id() from dual");
+		){
 			pstmt1.setString(1, bookVo.getTitle());
 			pstmt1.setInt(2, bookVo.getPrice());
 			pstmt1.setLong(3, bookVo.getCategoryNo());
@@ -33,12 +35,11 @@ public class BookDao {
 	public void deleteByNo(Long no) {
 		try (
 				Connection conn = DBConnection.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("delete "
-						+ "from book where no = ?");
+				PreparedStatement pstmt = conn.prepareStatement(
+						"delete from book where no = ?");
 		) {
 			pstmt.setLong(1, no);
 			pstmt.executeUpdate();
-
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
 		}
