@@ -15,20 +15,15 @@ public class CartDao {
 	public void insert(CartVo cartVo) {
 		
 		try (Connection conn = DBConnection.getConnection();
-				PreparedStatement pstmt1 = conn.prepareStatement(
+				PreparedStatement pstmt = conn.prepareStatement(
 						"insert into cart (quantity, price, user_no, book_no) values(?, ?, ?, ?)");
-				PreparedStatement pstmt2 = conn.prepareStatement(
-						"select last_insert_id() from dual");
 		){
-			pstmt1.setInt(1, cartVo.getQuantity());
-			pstmt1.setInt(2, cartVo.getPrice());
-			pstmt1.setLong(3, cartVo.getUserNo());
-			pstmt1.setLong(4, cartVo.getBookNo());
-			pstmt1.executeUpdate();
+			pstmt.setInt(1, cartVo.getQuantity());
+			pstmt.setInt(2, cartVo.getPrice());
+			pstmt.setLong(3, cartVo.getUserNo());
+			pstmt.setLong(4, cartVo.getBookNo());
+			pstmt.executeUpdate();
 
-			ResultSet rs = pstmt2.executeQuery();
-			cartVo.setNo(rs.next() ? rs.getLong(1) : null);
-			rs.close();
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
 		}
@@ -40,7 +35,7 @@ public class CartDao {
 		List<CartVo> result = new ArrayList<>();
 		try (Connection conn = DBConnection.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(
-						"select a.no, a.quantity, a.price, b.title, b.no"
+						"select a.quantity, a.price, b.title, b.no"
 						+ " from cart a join book b on a.book_no = b.no"
 						+ " where user_no = ?");
 		) {
@@ -48,11 +43,10 @@ public class CartDao {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				CartVo cartVo = new CartVo();
-				cartVo.setNo(rs.getLong(1));
-				cartVo.setQuantity(rs.getInt(2));
-				cartVo.setPrice(rs.getInt(3));
-				cartVo.setBookTitle(rs.getString(4));
-				cartVo.setBookNo(rs.getLong(5));
+				cartVo.setQuantity(rs.getInt(1));
+				cartVo.setPrice(rs.getInt(2));
+				cartVo.setBookTitle(rs.getString(3));
+				cartVo.setBookNo(rs.getLong(4));
 				cartVo.setUserNo(userNo);
 				result.add(cartVo);
 			}

@@ -2,21 +2,12 @@ package bookmall.vo;
 
 public class OrderBookVo {
 	
-	private Long no;
 	private int quantity;
 	private int price;
 	private Long orderNo;
 	private Long bookNo;
 	private String bookTitle;
-	
-	public Long getNo() {
-		return no;
-	}
-	
-	public void setNo(Long no) {
-		this.no = no;
-	}
-	
+		
 	public int getQuantity() {
 		return quantity;
 	}

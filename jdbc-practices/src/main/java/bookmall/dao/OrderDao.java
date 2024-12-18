@@ -69,22 +69,15 @@ public class OrderDao {
 	public void insertBook(OrderBookVo orderBookVo) {
 
 		try (Connection conn = DBConnection.getConnection();
-				PreparedStatement pstmt1 = conn.prepareStatement(
+				PreparedStatement pstmt = conn.prepareStatement(
 						"insert into orders_book " 
 						+ "(quantity, price, book_no, orders_no) values(?, ?, ?, ?)");
-				PreparedStatement pstmt2 = conn.prepareStatement(
-						"select last_insert_id() " 
-						+ "from dual");
 		) {
-			pstmt1.setInt(1, orderBookVo.getQuantity());
-			pstmt1.setInt(2, orderBookVo.getPrice());
-			pstmt1.setLong(3, orderBookVo.getBookNo());
-			pstmt1.setLong(4, orderBookVo.getOrderNo());
-			pstmt1.executeUpdate();
-
-			ResultSet rs = pstmt2.executeQuery();
-			orderBookVo.setNo(rs.next() ? rs.getLong(1) : null);
-			rs.close();
+			pstmt.setInt(1, orderBookVo.getQuantity());
+			pstmt.setInt(2, orderBookVo.getPrice());
+			pstmt.setLong(3, orderBookVo.getBookNo());
+			pstmt.setLong(4, orderBookVo.getOrderNo());
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
 		}
@@ -95,7 +88,7 @@ public class OrderDao {
 		List<OrderBookVo> result = new ArrayList<>();
 		try (Connection conn = DBConnection.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(
-						"select a.no, b.no, b.quantity, b.price, b.book_no, c.title" 
+						"select a.no, b.quantity, b.price, b.book_no, c.title" 
 						+ " from orders_book b"
 						+ " join orders a on a.no = b.orders_no" 
 						+ " join book c on c.no = b.book_no"
@@ -108,11 +101,10 @@ public class OrderDao {
 			while (rs.next()) {
 				OrderBookVo orderBookVo = new OrderBookVo();
 				orderBookVo.setOrderNo(rs.getLong(1));
-				orderBookVo.setNo(rs.getLong(2));
-				orderBookVo.setQuantity(rs.getInt(3));
-				orderBookVo.setPrice(rs.getInt(4));
-				orderBookVo.setBookNo(rs.getLong(5));
-				orderBookVo.setBookTitle(rs.getString(6));
+				orderBookVo.setQuantity(rs.getInt(2));
+				orderBookVo.setPrice(rs.getInt(3));
+				orderBookVo.setBookNo(rs.getLong(4));
+				orderBookVo.setBookTitle(rs.getString(5));
 				result.add(orderBookVo);
 			}
 			rs.close();

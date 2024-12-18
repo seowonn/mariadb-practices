@@ -4,20 +4,11 @@ import bookmall.dao.CartDao;
 
 public class CartVo {
 
-	private Long no;
 	private int quantity;
 	private int price;
 	private Long userNo;
 	private Long bookNo;
 	private String bookTitle;
-	
-	public void setNo(Long no) {
-		this.no = no;
-	}
-
-	public Long getNo() {
-		return no;
-	}
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
